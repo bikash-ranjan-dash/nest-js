@@ -5,10 +5,12 @@ import {
   Get,
   Param,
   Post,
+  UseFilters,
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
 import { UserDtod, UserParamDto } from './dto/user.dto';
+import { HttpExceptionFilter } from './filter';
 import { User } from './interface/user';
 import { UserService } from './user.service';
 
@@ -30,6 +32,7 @@ export class UserController {
   }
 
   @Get(':email')
+  @UseFilters(new HttpExceptionFilter())
   getUser(@Param() params: UserParamDto): User {
     return this.userService.getUser(params.email);
   }
